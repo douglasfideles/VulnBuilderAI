@@ -1,5 +1,6 @@
 import requests
 import asyncio
+import time
 from .data_source import DataSourceBase
 
 class NvdExtractor(DataSourceBase):
@@ -8,6 +9,7 @@ class NvdExtractor(DataSourceBase):
         for param in search_params:
             print(f"Collecting NVD data for search parameter: {param}")
             nvd_response = await self.get_nvd_data(param)  # Adicione await aqui
+            time.sleep(5)
             if nvd_response and 'vulnerabilities' in nvd_response:
                 for vuln in nvd_response['vulnerabilities']:
                     vulnerabilities.append(vuln)

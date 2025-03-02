@@ -1,5 +1,0 @@
-Eclipse Mosquitto
-EMQX
-VerneMQ
-RabbitMQ
-HiveMQ

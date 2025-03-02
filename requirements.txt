@@ -3,3 +3,5 @@ google-generativeai
 openai
 transformers
 psutil
+huggingface_hub
+https://github.com/huggingface/transformers
