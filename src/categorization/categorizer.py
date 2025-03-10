@@ -15,6 +15,84 @@ safe = [
     {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
 ]
 
+def extract_assistant_response(raw_output, prompt):
+        """
+        Extract the security vulnerability information and format it as proper JSON
+        regardless of how the LLM formats its output.
+        """
+        # Remove the original prompt if it's included
+        if prompt in raw_output:
+            response = raw_output.split(prompt, 1)[1]
+        else:
+            response = raw_output
+        
+        # Handle chat model markers
+        if "<|assistant|>" in response:
+            response = response.split("<|assistant|>", 1)[1].strip()
+        elif "\n<|assistant|>\n" in response:
+            response = response.split("\n<|assistant|>\n", 1)[1].strip()
+        
+        # Remove trailing tokens
+        for end_token in ["</s>", "<|endoftext|>"]:
+            if end_token in response:
+                response = response.split(end_token, 1)[0].strip()
+        
+        # Initialize the structure we want to extract
+        result = {
+            "cwe_category": "Unknown",
+            "explanation": "",
+            "vendor": "Unknown",
+            "cause": "",
+            "impact": ""
+        }
+        
+        # Find CWE ID
+        cwe_match = re.search(r'CWE[- ](\d+)', response)
+        if cwe_match:
+            result["cwe_category"] = f"CWE-{cwe_match.group(1)}"
+        
+        # Find Vendor
+        vendor_match = re.search(r'(?:Vendor|vendor)[:\s]+([^:\n]+)', response)
+        if vendor_match:
+            result["vendor"] = vendor_match.group(1).strip()
+        
+        # Find Cause
+        cause_match = re.search(r'(?:Cause|cause)[:\s]+([^\n]+(?:\n[^A-Z][^\n]+)*)', response)
+        if cause_match:
+            result["cause"] = cause_match.group(1).strip()
+        
+        # Find Impact
+        impact_match = re.search(r'(?:Impact|impact)[:\s]+([^\n]+(?:\n[^A-Z][^\n]+)*)', response)
+        if impact_match:
+            result["impact"] = impact_match.group(1).strip()
+        
+        # Extract explanation - if not explicitly found, use the vulnerability description
+        explanation_match = re.search(r'(?:Explanation|explanation|Vulnerability Description)[:\s]+([^\n]+(?:\n[^A-Z][^\n]+)*)', response)
+        if explanation_match:
+            result["explanation"] = explanation_match.group(1).strip()
+        elif "explanation" in response.lower():
+            # Try to extract text after "explanation:"
+            parts = response.lower().split("explanation:", 1)
+            if len(parts) > 1:
+                explanation_text = parts[1].split("\n", 1)[0].strip()
+                result["explanation"] = explanation_text
+        
+        # If no separate explanation was found, try to use the description from the prompt
+        if not result["explanation"]:
+            description_match = re.search(r'Description:\s*```\s*(.*?)\s*```', prompt, re.DOTALL)
+            if description_match:
+                result["explanation"] = description_match.group(1).strip()
+        
+        # Clean up any values
+        for key in result:
+            if isinstance(result[key], str):
+                # Remove multiple spaces
+                result[key] = re.sub(r'\s+', ' ', result[key]).strip()
+                # Remove any remaining backticks
+                result[key] = result[key].replace('`', '')
+        
+        return result
+
 def _extract_category_v2(response):
     """Extract structured data from AI response text."""
     try:
@@ -320,6 +398,7 @@ class Categorizer:
             print(f"Error calling ChatGPT API: {e}")
             return [{"cwe_category": "UNKNOWN", "explanation": str(e), "vendor": "Unknown", "cause": "", "impact": ""}]
 
+
     async def categorize_vulnerability_provider(self, description):
         api_key = os.getenv('PROVIDER_API_KEY')
         base_url = os.getenv('PROVIDER_API_URL')
@@ -344,9 +423,13 @@ class Categorizer:
             - If no clear vendor is found, return "Unknown"
             - Use official vendor names where possible and keep the same name for vulnerabilities of the same vendor
 
+            Returns only the result nothing more!
+            Example:
+                    {{"cwe_category": "CWE-ID", "explanation": "Brief Explanation of the CWE", "vendor": "Vendor Name", "cause": "Cause of the Vulnerability", "impact": "Impact of the Vulnerability"}}
+
             Output:
             ```json
-            {{"cwe_category": "CWE-ID", "explanation": "Brief Explanation of the CWE", "vendor": "Vendor Name", "cause": "Cause of the Vulnerability", "impact": "Impact of the Vulnerability"}}
+                {{"cwe_category": "CWE-ID", "explanation": "Brief Explanation of the CWE", "vendor": "Vendor Name", "cause": "Cause of the Vulnerability", "impact": "Impact of the Vulnerability"}}
             ```
             """
             
@@ -358,37 +441,38 @@ class Categorizer:
                     messages=[{"role": "user", "content": prompt}]
                 )
                 result = _extract_category(completion.choices[0].message.content)
+                print(result)
                 return [result]
             except Exception as e:
                 print(f"Error calling API: {e}")
                 return [{"cwe_category": "UNKNOWN", "explanation": str(e), "vendor": "Unknown", "cause": "", "impact": ""}]
         
         if(type == 'local'):
-            
-            prompt_local = f"""
-            You are a security expert.
-            Categorize the following vulnerability description into a CWE category, identify the vendor, and extract the cause and impact of the vulnerability.
 
-            Description:
-            {description}
+            local_prompt = f"""
+                You are a security expert.
+                Categorize the following vulnerability description into a CWE category, identify the vendor, and extract the cause and impact of the vulnerability.
+                Provide the CWE ID (only the CWE ID of the vulnerability), a brief explanation, the vendor name, the cause of the vulnerability, and its impact.
 
-            Provide the output in the following format:
-            CWE ID: CWE-ID
-            Vendor: Vendor Name
-            Cause: Cause of the Vulnerability
-            Impact: Impact of the Vulnerability
-            Explanation: Brief Explanation of the CWE
+                Description:
+                ```
+                {description}
+                ```
+                Rules for returning the vendor:
+                - Return only the official/primary vendor name
+                - For open source projects, return the organization maintaining it
+                - If multiple vendors are mentioned, return the one responsible for the vulnerable component
+                - Normalize variations of the same vendor name
+                - If no clear vendor is found, return "Unknown"
+                - Use official vendor names where possible and keep the same name for vulnerabilities of the same vendor
 
-            Give only the results nothing more.
-            """
-            messages=[{"role": "user", "content": f"""
-                    You are a security expert.
-                    Categorize the following vulnerability description:
-                    {description}
-                    Provide the output in JSON format:
-                    {{"cwe_category": "CWE-ID", "explanation": "Brief Explanation", "vendor": "Vendor Name", "cause": "Cause", "impact": "Impact"}}
-                """}]
-
+                Format your response as follows:
+                CWE ID: <CWE-ID number only>
+                Explanation: <brief explanation of the vulnerability>
+                Vendor: <vendor name>
+                Cause: <cause of the vulnerability>
+                Impact: <impact of the vulnerability>
+                """
 
             try:
                 tokenizer = AutoTokenizer.from_pretrained(model)
@@ -399,20 +483,70 @@ class Categorizer:
                     key, value = config_string.split('=')
                     # Criar um dicionário com a chave e o valor
                     config_dict = {key: value}
-                    model = AutoModelForCausalLM.from_pretrained(model, **config_dict)
+                    model = AutoModelForCausalLM.from_pretrained(model,**config_dict)
                 else:
                     model = AutoModelForCausalLM.from_pretrained(model)
                 
-                pipe = pipeline("text-generation", model=model, tokenizer=tokenizer, max_new_tokens=200)
-                response = pipe(messages, do_sample=True, temperature=0.7, top_k=50, top_p=0.95)[0]["generated_text"]
+                messages=[{"role": "user", "content": local_prompt}]
+                formatted_prompt = tokenizer.apply_chat_template(messages, tokenize=False)
 
-                print(f"RESULTO OF IA RESPONSE: {response}")
+                pipe = pipeline("text-generation", model= model, tokenizer = tokenizer, max_new_tokens=250)
+                #print(pipe(formatted_prompt)[0]["generated_text"])
+                raw_output = pipe(formatted_prompt)[0]["generated_text"]
+                result = extract_assistant_response(raw_output, local_prompt)
+                print(result)
 
-                result = _extract_category_v2(response)
-                print(f"RESULTO OF CATEGORIZING: {result}")
                 return [result]
+            except Exception as e:
+                print(f"Error calling local: {e}")
+                return [{"cwe_category": "UNKNOWN", "explanation": str(e), "vendor": "Unknown", "cause": "", "impact": ""}]
             
             except Exception as e:
                 print(f"Error calling local: {e}")
                 return [{"cwe_category": "UNKNOWN", "explanation": str(e), "vendor": "Unknown", "cause": "", "impact": ""}]
 
+    
+    def vote(self, responses, field):
+        """
+        Implement weighted voting for a specific field across AI responses.
+        """
+        if not responses:
+            return "Unknown"
+
+        self.weights = {
+            'gemini': 1.0,
+            'chatgpt': 1.0,
+            'llama': 1.0
+        }
+
+        # Count occurrences with weights
+        weighted_votes = {}
+        for source, response in responses.items():
+            value = str(response.get(field, '')).strip()
+            if value:
+                weight = self.weights.get(source, 1.0)
+                weighted_votes[value] = weighted_votes.get(value, 0) + weight
+
+        # Return the value with highest weighted votes
+        if weighted_votes:
+            return max(weighted_votes.items(), key=lambda x: x[1])[0]
+        return "Unknown"
+
+    def combine_results(self, gemini_result, gpt_result, llama_result):
+        """
+        Combine results from different AI sources using weighted voting.
+        """
+        responses = {
+            'gemini': gemini_result[0] if gemini_result else {},
+            'chatgpt': gpt_result[0] if gpt_result else {},
+            'llama': llama_result[0] if llama_result else {}
+        }
+
+        return [{
+            "cwe_category": self.vote(responses, "cwe_category"),
+            "explanation": self.vote(responses, "explanation"),
+            "vendor": self.vote(responses, "vendor"),
+            "cause": self.vote(responses, "cause"),
+            "impact": self.vote(responses, "impact")
+        }]
+    
