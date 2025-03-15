@@ -429,7 +429,7 @@ class Categorizer:
 
             Output:
             ```json
-                {{"cwe_category": "CWE-ID", "explanation": "Brief Explanation of the CWE", "vendor": "Vendor Name", "cause": "Cause of the Vulnerability", "impact": "Impact of the Vulnerability"}}
+                {{"cwe_category": "CWE-ID", "explanation": "Brief Explanation of the CWE",  "cause": "Cause of the Vulnerability", "impact": "Impact of the Vulnerability"}}
             ```
             """
             
@@ -441,11 +441,10 @@ class Categorizer:
                     messages=[{"role": "user", "content": prompt}]
                 )
                 result = _extract_category(completion.choices[0].message.content)
-                print(result)
                 return [result]
             except Exception as e:
                 print(f"Error calling API: {e}")
-                return [{"cwe_category": "UNKNOWN", "explanation": str(e), "vendor": "Unknown", "cause": "", "impact": ""}]
+                return [{"cwe_category": "UNKNOWN", "explanation": str(e), "cause": "", "impact": ""}]
         
         if(type == 'local'):
 
