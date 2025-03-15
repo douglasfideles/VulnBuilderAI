@@ -202,6 +202,9 @@ async def main():
     categorized_data = {provider: [] for provider in args.provider}
     categorizer_obj = Categorizer()
     
+    skipped_vulnerabilities = 0  # Counter for skipped vulnerabilities
+
+
     for provider in args.provider:
         provider_type = get_provider(provider)
         print(f"Vulnerability categorizing {provider}...")
@@ -219,7 +222,7 @@ async def main():
             
         for vuln in normalized_data:
             if not vuln.get("id"):
-                print(f"Warning: Skipping vulnerability without ID")
+                skipped_vulnerabilities += 1
                 continue
             description = vuln.get("description", "")
             result = None
@@ -262,6 +265,10 @@ async def main():
         print(f"Exporting data to {output}")
         exporter = exporters[args.export_format]
         exporter.export(categorized_data[provider])
+
+        # Log the number of skipped vulnerabilities
+        if skipped_vulnerabilities > 0:
+            print(f"Total vulnerabilities skipped due to missing ID: {skipped_vulnerabilities}")
 
         # End measuring time and resources
         end_time = time.time()

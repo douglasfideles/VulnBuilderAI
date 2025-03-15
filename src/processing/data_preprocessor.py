@@ -8,6 +8,7 @@ class DataPreprocessor:
         seen_ids = set()
         seen_cves = set()
         duplicates = []
+        skipped_vulnerabilities = 0
 
         for vuln in vulnerabilities:
             # Normalize data
@@ -16,7 +17,7 @@ class DataPreprocessor:
                 if norm:
                     vuln_id = norm.get('id')
                     if not vuln_id:
-                        print(f"Warning: Skipping vulnerability without ID")
+                        skipped_vulnerabilities += 1
                         continue
                     cve = norm.get('id')  # Assuming 'id' contains the CVE identifier
 
@@ -25,14 +26,16 @@ class DataPreprocessor:
                         duplicates.append(norm)
                         continue
 
-                    # Assign vendor based on search parameters
-                    norm['vendor'] = next((param for param in search_params if param.lower() in norm['description_without_punct']), "Unknown")
+                    description = norm.get('description_without_punct', '').lower()
+                    norm['vendor'] = next((param for param in search_params)).lower()
                     normalized.append(norm)
                     seen_ids.add(vuln_id)
                     seen_cves.add(cve)
                     break
 
         # Print detailed statistics
+        if skipped_vulnerabilities > 0:
+            print(f"Total vulnerabilities skipped due to missing ID: {skipped_vulnerabilities}")
         print(f"\nDuplication Statistics for {source_name}:")
         print(f"Total vulnerabilities found for {source_name}: {len(vulnerabilities)}")
         print(f"Unique vulnerabilities for {source_name} after normalization: {len(normalized)}")
