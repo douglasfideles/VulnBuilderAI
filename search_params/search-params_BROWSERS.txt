@@ -1,5 +1,0 @@
-Google Chrome Browser
-Microsoft Edge Browser
-Mozilla Firefox Browser
-Apple Safari Browser
-Opera Browser

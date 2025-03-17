@@ -10,14 +10,12 @@ exporters:
   - csv
   - json
 
-
-
 models_to_evaluate:
-  - hugginface_api_key: ""
+  - hugginface_api_key: "higginface_api_key"
   - model: "gpt-4o-mini"
     type: "api"
     provider: "openai"
-    api_key: ""
+    api_key: "OPENAI_API_KEY"
     site: "https://api.openai.com/v1"
   - model: "llama3.1-70b"
     type: "api"
@@ -47,10 +45,14 @@ models_to_evaluate:
   - model: "distilgpt2"
     type: "local"
     provider: "distilgpt2"
-    config : ""
+    config: ""
   - model: "gpt2"
     type: "local"
     provider: "gpt2"
+    config: ""
+  - model: "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
+    type: "local"
+    provider: "tinyllama"
     config: ""
   - model: "bert-base-uncased"
     type: "local"
@@ -58,5 +60,5 @@ models_to_evaluate:
     config: "is_decoder=True"
   - model: "perplexity-ai/r1-1776"
     type: "local"
-    provider: "perplexity" 
+    provider: "perplexity"
     config: "trust_remote_code=True"

@@ -96,7 +96,7 @@ async def main():
     except Exception as e:
         print("You are not logged in to Hugging Face. Please log in.")
         # Substitua 'SEU_TOKEN_AQUI' pelo seu token de acesso do Hugging Face
-        login(token=config['models_to_evaluate'].get('hugginface_api_key'))
+        login(token=config['models_to_evaluate'][0].get('hugginface_api_key'))
 
 
     data_source_choices = config['data_sources'] + ['both']
@@ -119,14 +119,7 @@ async def main():
     parser.add_argument('--search-file', help="Path to a file containing search parameters")
     args = parser.parse_args()
 
-    # Prioritize command-line arguments over environment variables
-    if args.vulners_key:
-        os.environ["VULNERS_API_KEY"] = args.vulners_key
-    if args.new_source_key:
-        os.environ["NEW_SOURCE_API_KEY"] = args.new_source_key  # Set new source key in environment
-    os.environ["CSV_OUTPUT_FILE"] = args.output_file
 
-           
     search_params = args.search_params or []
     if args.search_file:
         search_params.extend(read_search_params_from_file(args.search_file))
@@ -180,6 +173,9 @@ async def main():
     categorized_data = {provider: [] for provider in args.provider}
     categorizer_obj = Categorizer()
     
+    skipped_vulnerabilities = 0  # Counter for skipped vulnerabilities
+
+
     for provider in args.provider:
         provider_type = get_provider(provider)
         print(f"Vulnerability categorizing {provider}...")
@@ -197,7 +193,7 @@ async def main():
             
         for vuln in normalized_data:
             if not vuln.get("id"):
-                print(f"Warning: Skipping vulnerability without ID")
+                skipped_vulnerabilities += 1
                 continue
             description = vuln.get("description", "")
             result = None
@@ -206,7 +202,7 @@ async def main():
                 result = await categorizer_obj.categorize_vulnerability_provider(description)
             except Exception as e:
                 print(f"Error categorizing vulnerability with {provider}: {e}")
-                result = [{"cwe_category": "UNKNOWN", "explanation": str(e), "vendor": "Unknown", "cause": "", "impact": ""}]
+                result = [{"cwe_category": "UNKNOWN", "explanation": str(e), "cause": "", "impact": ""}]
             
             if result and len(result) > 0:
                 categorization = result[0]  # Get first result dictionary
@@ -229,13 +225,13 @@ async def main():
             categorized_data[provider].append(vuln)
     
         print(f"Total categorized vulnerabilities for {provider}: {len(categorized_data[provider])}")
-        # Load exporters
-
+        
         if provider == "none":
             output = "dataset/" + args.output_file
         else:
             output = provider + '_dataset/' + args.output_file
-            
+
+        print(f"Exporting data to {output}")
         exporters = load_exporters(config, output)
         if args.export_format not in exporters:
            print(f"Unsupported export format: {args.export_format}")
@@ -244,6 +240,10 @@ async def main():
         print(f"Exporting data to {output}")
         exporter = exporters[args.export_format]
         exporter.export(categorized_data[provider])
+
+        # Log the number of skipped vulnerabilities
+        if skipped_vulnerabilities > 0:
+            print(f"Total vulnerabilities skipped due to missing ID: {skipped_vulnerabilities}")
 
         # End measuring time and resources
         end_time = time.time()

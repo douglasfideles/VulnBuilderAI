@@ -1,5 +1,6 @@
 import requests
 import asyncio
+import time
 from .data_source import DataSourceBase
 
 class NvdExtractor(DataSourceBase):
@@ -7,13 +8,18 @@ class NvdExtractor(DataSourceBase):
         vulnerabilities = []
         for param in search_params:
             print(f"Collecting NVD data for search parameter: {param}")
-            nvd_response = await self.get_nvd_data(param)  # Adicione await aqui
-            if nvd_response and 'vulnerabilities' in nvd_response:
-                for vuln in nvd_response['vulnerabilities']:
-                    vulnerabilities.append(vuln)
-                print(f"Found {len(nvd_response['vulnerabilities'])} NVD vulnerabilities for {param}")
-            else:
-                print(f"No vulnerabilities found for {param}")
+            time.sleep(5)
+            try:
+                nvd_response = await self.get_nvd_data(param)
+                if nvd_response and 'vulnerabilities' in nvd_response:
+                    for vuln in nvd_response['vulnerabilities']:
+                        vuln['vendor'] = param  # Add vendor based on search parameter
+                        vulnerabilities.append(vuln)
+                    print(f"Found {len(nvd_response['vulnerabilities'])} NVD vulnerabilities for {param}")
+                else:
+                    print(f"No vulnerabilities found for {param}")
+            except Exception as e:
+                print(f"Error collecting data for {param}: {e}")
         return vulnerabilities
 
     async def get_nvd_data(self, keyword):

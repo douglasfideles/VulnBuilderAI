@@ -12,6 +12,7 @@ class VulnersExtractor(DataSourceBase):
             if vulners_response and 'data' in vulners_response and 'search' in vulners_response['data']:
                 vulners_vulns = vulners_response['data']['search']
                 for vuln in vulners_vulns:
+                    vuln['vendor'] = param
                     vulnerabilities.append(vuln)
                 print(f"Found {len(vulners_vulns)} Vulners vulnerabilities for {param}")
         return vulnerabilities
