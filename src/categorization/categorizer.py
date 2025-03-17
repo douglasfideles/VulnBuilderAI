@@ -476,11 +476,13 @@ class Categorizer:
                 tokenizer = AutoTokenizer.from_pretrained(model)
                 
                 if(config):
-                    config_string = config
-                    # Dividir a string em chave e valor
-                    key, value = config_string.split('=')
-                    # Criar um dicionário com a chave e o valor
-                    config_dict = {key: value}
+                    pairs = config.split(',')
+
+                    # Converter cada par chave=valor em um dicionário
+                    config_dict = {}
+                    for pair in pairs:
+                        key, value = pair.split('=')
+                        config_dict[key] = value
                     model = AutoModelForCausalLM.from_pretrained(model,**config_dict)
                 else:
                     model = AutoModelForCausalLM.from_pretrained(model)
@@ -492,7 +494,7 @@ class Categorizer:
                 #print(pipe(formatted_prompt)[0]["generated_text"])
                 raw_output = pipe(formatted_prompt)[0]["generated_text"]
                 result = extract_assistant_response(raw_output, local_prompt)
-                print(result)
+                #print(result)
 
                 return [result]
             except Exception as e:
