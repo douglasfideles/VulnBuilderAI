@@ -14,15 +14,16 @@ Este README.md está organizado nas seguintes seções:
 
 1.  **Título e Resumo:** Título do projeto e um resumo conciso (cópia do resumo do artigo).
 2.  **Funcionalidades:** Lista as principais funcionalidades da ferramenta.
-3.  **Pré-requisitos:** Lista os requisitos de software (Python, APIs).
-4.  **Instalação:** Instruções passo a passo para instalar a ferramenta.
-5.  **Configuração:** Instruções para configurar as chaves de API.
-6.  **Uso:** Descreve como reproduzir os experimentos apresentados no artigo..
-7.  **Experimentos:** Explicação dos argumentos de linha de comando e exemplos de uso.
-8.  **Docker (Opcional):** Instruções para construir e executar a ferramenta usando Docker.
-9.  **Estrutura do Código:** Breve visão geral da organização do código-fonte.
-10. **Extensibilidade**: Como adicionar novas fontes e novos exportadores.
-11. **Licença:** Informações sobre a licença do projeto.
+3.  **Dependências:** Lista os requisitos de software (Python, APIs).
+4.  **Preocupações com segurança:** Lista das preocupações com a segurança.
+5.  **Instalação:** Instruções passo a passo para instalar a ferramenta.
+6.  **Configuração:** Instruções para configurar as chaves de API.
+7.  **Uso:** Descreve como reproduzir os experimentos apresentados no artigo..
+8.  **Experimentos:** Explicação dos argumentos de linha de comando e exemplos de uso.
+9.  **Docker (Opcional):** Instruções para construir e executar a ferramenta usando Docker.
+10. **Estrutura do Código:** Breve visão geral da organização do código-fonte.
+11. **Extensibilidade**: Como adicionar novas fontes e novos exportadores.
+12. **Licença:** Informações sobre a licença do projeto.
 
 ---
 
@@ -65,7 +66,7 @@ Este README.md está organizado nas seguintes seções:
 - **Linha de Comando:**
   - Interface de linha de comando para facilitar o uso da ferramenta.
 
-## Pré-requisitos
+## Dependências
 
 - Python 3.8 ou superior.
 - Chaves de API para os seguintes serviços (opcional, dependendo dos módulos e LLMs que você for usar):
@@ -74,6 +75,57 @@ Este README.md está organizado nas seguintes seções:
   - **Google Gemini:** Obtenha uma chave em [https://ai.google.dev/](https://ai.google.dev/)
   - **OpenAI ChatGPT:** Obtenha uma chave em [https://platform.openai.com/](https://platform.openai.com/)
   - **Llama (Meta):** Obtenha uma chave em [https://llama-api.com/](https://llama-api.com/)
+
+## Preocupações com segurança
+
+Caso a execução do artefato ofereça qualquer tipo de risco, esta seção detalha os potenciais perigos e descreve os processos necessários para garantir a segurança dos avaliadores.
+
+**Riscos Potenciais**
+
+1.  **Uso de Recursos Externos:**
+
+- Dependências externas ou APIs podem expor chaves de autenticação ou dados sensíveis, caso não sejam configuradas adequadamente.
+- É importante assegurar que qualquer dado enviado a terceiros esteja em conformidade com políticas de privacidade e segura
+
+1. **Execução de Código:**
+
+- O uso de scripts automatizados, especialmente aqueles com permissões elevadas, pode representar riscos se forem configurados incorretamente.
+- Erros no código podem levar ao uso indevido de recursos, como consumo excessivo de CPU/GPU ou perda de dados.
+
+3. **Manipulação de Dados Brutos:**
+
+- Dados não sanitizados podem conter informações prejudiciais ou maliciosas, representando um risco para o sistema onde são processados.
+
+**Medidas de Segurança**
+
+1. **Gerenciamento de Chaves de API:**
+
+- Assegura que as chaves de API sejam armazenadas em variáveis de ambiente e nunca diretamente no código, na config.yaml cuidado com o envio da ´api_key´. Essa configuração é estrito para testes.
+- Exemplo de configuração:
+  ```yaml
+  type: "api"
+  provider: "llama2"
+  site: "https://api.llama-api.com"
+  api_key: "api_key"
+  ```
+
+2. **Execução em Ambientes Isolados:**
+
+- Utiliza ambientes virtuais ou contêineres (e.g., Docker) para isolar a execução do artefato.
+- Recomendação para criar um contêiner:
+
+  ```bash
+    docker build -t vuln-builder-ai .
+    docker run -p 8000:8000 vuln-builder-ai
+  ```
+
+3. **Documentação de Restrições:**
+
+- Informa aos revisores quaisquer restrições ou pré-requisitos para garantir a execução segura do artefato.
+
+**Responsabilidade**
+
+- Todos os scripts fornecidos foram projetados para minimizar riscos à segurança. No entanto, é responsabilidade do usuário garantir que o ambiente de execução seja seguro e que as práticas recomendadas descritas acima sejam seguidas.
 
 ## Instalação
 
