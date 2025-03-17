@@ -70,6 +70,7 @@ Este README.md está organizado nas seguintes seções:
 - Python 3.8 ou superior.
 - Chaves de API para os seguintes serviços (opcional, dependendo dos módulos e LLMs que você for usar):
   - **Vulners:** Obtenha uma chave em [https://vulners.com/](https://vulners.com/)
+  - **HugginFace:** Obtenha uma chave em [https://huggingface.co](https://huggingface.co/)
   - **Google Gemini:** Obtenha uma chave em [https://ai.google.dev/](https://ai.google.dev/)
   - **OpenAI ChatGPT:** Obtenha uma chave em [https://platform.openai.com/](https://platform.openai.com/)
   - **Llama (Meta):** Obtenha uma chave em [https://llama-api.com/](https://llama-api.com/)
