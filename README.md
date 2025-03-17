@@ -27,10 +27,10 @@ Este README.md está organizado nas seguintes seções:
 ---
 
 ## Selos
-- **Artefatos Disponíveis (SeloD)**
+## Artefatos Disponíveis (SeloD)
   - O repositório disponível no GitHub contém o arquivo README.md, o qual fornece todas as informações necessárias para entender e utilizar o projeto. Nele, você encontrará detalhes sobre o propósito do projeto, requisitos de sistema, instruções de instalação e execução, além de outras informações relevantes.
-- **Artefatos Funcionais (SeloF)**
-  ## Dependências
+## Artefatos Funcionais (SeloF)
+  - **Dependências**
   - `requests`
   - `google-generativeai`
   - `openai`
@@ -49,20 +49,19 @@ Este README.md está organizado nas seguintes seções:
     - `psutil`: versão 5.9.4
     - `huggingface_hub`: versão 0.13.3
     - `torch`: versão 2.0.0
-  - **Ambiente:** Sistema operacional Ubuntu 20.04 LTS, arquitetura x86_64.
+  - **Ambiente:** Sistema operacional windows 10 e Ubuntu 20.04 LTS, arquiteturas x86_64.
 
   ## Descrição do Ambiente de Execução
   Este projeto foi desenvolvido para rodar em ambiente Linux e Windows. É necessário suporte para Python 3.10 e acesso à internet para baixar as dependências. Pode ser configurado localmente ou em contêineres como Docker.
 
--**Artefatos Sustentáveis (SeloS)**
--**Experimentos Reprodutíveis (SeloR)**
--**Experimentos Reprodutíveis (SeloR)**
+ ## Artefatos Sustentáveis (SeloS)
+ - ## Experimentos Reprodutíveis (SeloR)
 
-## Instruções para Reproduzir as Principais Reivindicações
+ - **Instruções para Reproduzir as Principais Reivindicações**
 
 Este repositório fornece scripts e instruções detalhadas para reproduzir os resultados apresentados no artigo, incluindo gráficos e tabelas.
 
-### Passos para Reproduzir os Resultados
+- **Passos para Reproduzir os Resultados**
 
 1. **Configuração do Ambiente**  
    Certifique-se de preparar o ambiente conforme especificado na seção de instalação deste README.md. Todas as dependências necessárias podem ser instaladas utilizando o arquivo `requirements.txt`.
@@ -71,7 +70,7 @@ Este repositório fornece scripts e instruções detalhadas para reproduzir os r
    Utilize o script principal para realizar os experimentos e gerar os resultados:
    ```bash
    python src/main.py --provider '[PROVEDOR_LLM]' --data-source '[FONTE_DADOS]' --search-params '[PARAMETRO_BUSCA]' --export-format [FORMATO_SAIDA] --output-file [ARQUIVO_SAIDA]
-## Detalhamento dos Argumentos de Linha de Comando
+- **Detalhamento dos Argumentos de Linha de Comando**
 
 | Argumento              | Descrição                                                                                             | Exemplo                          |
 |------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------|
@@ -83,52 +82,96 @@ Este repositório fornece scripts e instruções detalhadas para reproduzir os r
 
 ---
 
-Se precisar de mais detalhes ou ajustes, posso incluir mais informações na tabela! 😊
+# Informações Básicas
 
-## Instruções de Instalação e Execução
+Esta seção apresenta todos os componentes essenciais necessários para a execução e replicação dos experimentos, incluindo detalhes sobre o ambiente de execução e os requisitos de hardware e software.
+
+## Ambiente de Execução
+
+- **Sistemas Operacionais Suportados:**
+  - Ubuntu 20.04 LTS (ou equivalente com suporte a Python 3.10)
+  - Windows 10 ou superior
+- **Arquitetura:** x86_64.
+- **Linguagem de Programação:** Python 3.10.
+
+## Requisitos de Hardware
+
+- **CPU:** Processador com no mínimo 4 núcleos (recomendado Intel i5 ou equivalente).
+- **Memória RAM:** Mínimo de 8 GB (16 GB recomendados para grandes volumes de dados).
+- **Espaço em Disco:** Pelo menos 10 GB livres para armazenamento de dados e dependências.
+- **GPU (opcional):** GPU com suporte a CUDA (recomendado para uso com `torch` e treinamentos de modelos).
+- **Ambiente do Estudo de Caso:**
+  - **Processador:** Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz 2.81GHz (4 núcleos).
+  - **Memória RAM:** 16 GB.
+  - **Sistema Operacional:** Windows 10 Home.
+
+## Requisitos de Software
+
+- **Python 3.10:** Certifique-se de que está instalado no sistema.
+- **Gerenciador de Pacotes:** `pip` ou equivalente para instalação das dependências.
+- **Ferramentas Adicionais:**
+  - Git para clonagem do repositório.
+  - Ambiente virtual (opcional, mas recomendado) para isolamento do projeto.
+
+---
+
+# Dependências
+
+Esta seção descreve as dependências e benchmarks utilizados para a execução dos experimentos, incluindo versões específicas e processos para acessar recursos de terceiros.
+
+## Benchmarks Utilizados
+
+- **Benchmarks Avaliados:**
+  - [Benchmark X]: Utilizado para medir a eficiência dos modelos implementados. (ver to do)
+  - [Benchmark Y]: Avaliado para analisar a precisão dos resultados em cenários específicos.
+
+Os benchmarks podem ser encontrados em fontes confiáveis como [Hugging Face Datasets](https://huggingface.co/datasets) ou repositórios específicos.
+
+## Dependências de Software
+
+Abaixo estão listadas as principais bibliotecas e ferramentas necessárias, bem como suas versões:
+
+- `requests`: versão 2.31.0
+- `google-generativeai`: versão 0.1.3
+- `openai`: versão 0.27.2
+- `transformers`: versão 4.27.4
+- `psutil`: versão 5.9.4
+- `huggingface_hub`: versão 0.13.3
+- `torch`: versão 2.0.0
+
+## Processos para Acessar Recursos de Terceiros
+
+Caso a execução dos experimentos dependa de serviços ou recursos de terceiros, siga os passos abaixo para configuração:
+
+1. **Chave de API**
+   - Para acesso às APIs (e.g., `openai`, `google-generativeai`), gere uma chave de API no site oficial do provedor.
+   - Defina a chave como uma variável de ambiente:
+     ```bash
+     export API_KEY="SUA_CHAVE_AQUI"
+     ```
+
+2. **Datasets Externos**
+   - Faça o download dos datasets necessários diretamente da fonte indicada.
+   - Exemplo para uso com `Hugging Face Datasets`:
+     ```python
+     from datasets import load_dataset
+     dataset = load_dataset('nome_do_dataset')
+     ```
+
+3. **Autenticação**
+   - Certifique-se de autenticar adequadamente quando utilizar repositórios privados ou APIs protegidas.
+
+---
+
+Esta seção foi estruturada para fornecer clareza total sobre todas as dependências envolvidas, garantindo que os experimentos sejam reprodutíveis e acessíveis. Se precisar de mais informações ou ajustes, posso complementar! 😊
+
+
+
+## Instalação e Execução
 1. Clone o repositório:
    ```bash
    git clone https://github.com/seuprojeto/seurepositorio.git
    cd seurepositorio
-
-## Funcionalidades
-
-- **Coleta de Dados:** Busca dados de vulnerabilidades em múltiplas fontes:
-  - NVD (National Vulnerability Database)
-  - Vulners
-  - GitHub (através de uma API, _implementação futura_)
-- **Processamento de Dados:**
-  - Normalização e limpeza dos dados.
-  - Remoção de duplicatas.
-  - Truncamento de descrições longas.
-  - Filtragem de vulnerabilidades por critérios (e.g., fornecedor).
-- **Extração de Informações:** Extrai informações relevantes das descrições das vulnerabilidades, como:
-  - ID da vulnerabilidade (CVE, etc.)
-  - Título
-  - Descrição
-  - Fornecedor
-  - Data de publicação
-  - Score CVSS (se disponível)
-  - Severidade (se disponível)
-  - Fonte da informação
-- **Categorização com IA:**
-  - Utiliza modelos de linguagem (LLMs) para categorizar as vulnerabilidades:
-    - Google Gemini
-    - OpenAI ChatGPT
-    - Meta Llama 3
-  - Extrai as seguintes informações usando os LLMs:
-    - Categoria CWE (Common Weakness Enumeration)
-    - Explicação da CWE
-    - Fornecedor
-    - Causa da vulnerabilidade
-    - Impacto da vulnerabilidade
-  - Sistema de votação ponderada para combinar os resultados dos diferentes LLMs.
-- **Exportação de Dados:**
-  - Exporta os dados processados e categorizados para arquivos CSV ou JSON.
-- **Extensibilidade:**
-  - Arquitetura modular que facilita a adição de novas fontes de dados e novos modelos de IA.
-- **Linha de Comando:**
-  - Interface de linha de comando para facilitar o uso da ferramenta.
 
 ## Pré-requisitos
 
@@ -182,26 +225,19 @@ Você pode configurar o VulnBuilderAI usando _variáveis de ambiente_ ou _argume
 ### Argumentos de Linha de Comando
 
 ```bash
-python src/main.py --source <ai_provider> --data-source <data_source> --vulners-key <vulners_key> --gemini-key <gemini_key> --chatgpt-key <chatgpt_key> --llama-key <llama_key>  --export-format <format> --output-file <filename>  --search-params <params> --search-file <file_path>
+python src/main.py --provider <ai_provider> --data-source <data_source> --vulners-key <vulners_key> --gemini-key <gemini_key> --chatgpt-key <chatgpt_key> --llama-key <llama_key>  --export-format <format> --output-file <filename>  --search-params <params> --search-file <file_path>
 ```
 
-- `--source`: **Obrigatório.** Seleciona o provedor de IA para categorização. Opções:
-  - `gemini`: Usa o Google Gemini.
+- `--provider`:  Seleciona o provedor de IA para categorização. Opções:
+  - `none`: default.
   - `chatgpt`: Usa o OpenAI ChatGPT.
   - `llama`: Usa o Meta Llama.
-  - `combined`: Usa _todos_ os modelos acima, com um sistema de votação ponderada.
+  - `gemini`: Usa gemini da Google.
   - `none`: _Não_ usa IA para categorização (útil para coletar e normalizar dados sem categorizar).
 - `--data-source`: **Obrigatório.** Seleciona a fonte de dados de vulnerabilidades. Opções:
   - `nvd`: Usa o National Vulnerability Database (NVD).
   - `vulners`: Usa a API do Vulners.
   - `both`: Usa _ambas_ as fontes (NVD e Vulners).
-- `--gemini-key`: Chave de API para o Google Gemini (se `--source` for `gemini` ou `combined`).
-- `--chatgpt-key`: Chave de API para o OpenAI ChatGPT (se `--source` for `chatgpt` ou `combined`).
-- `--llama-key`: Chave de API para o Llama (se `--source` for `llama` ou `combined`).
-- `--default-key`: Chave de API Default para LLM
-- `--default-url`: Base URL para Default LLM
-- `--default-model`: Modelo para Default LLM
-- `--vulners-key`: Chave de API para o Vulners (se `--data-source` for `vulners` ou `both`).
 - `--export-format`: Formato de exportação dos dados. Opções:
   - `csv`: Arquivo CSV (Comma-Separated Values).
   - `json`: Arquivo JSON.
