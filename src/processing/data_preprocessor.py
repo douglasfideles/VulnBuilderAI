@@ -10,6 +10,8 @@ class DataPreprocessor:
         duplicates = []
         skipped_vulnerabilities = 0
 
+        param_index = 0  # Index to cycle through search_params
+
         for vuln in vulnerabilities:
             # Normalize data
             for normalizer in self.normalizers.values():
@@ -26,8 +28,9 @@ class DataPreprocessor:
                         duplicates.append(norm)
                         continue
 
-                    description = norm.get('description_without_punct', '').lower()
-                    norm['vendor'] = next((param for param in search_params)).lower()
+                    # Ensure vendor is preserved
+                    norm['vendor'] = vuln.get('vendor', 'Unknown')
+                    
                     normalized.append(norm)
                     seen_ids.add(vuln_id)
                     seen_cves.add(cve)

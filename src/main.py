@@ -105,14 +105,12 @@ async def main():
     
     export_format_choices = config['exporters']
 
-    parser.add_argument('--source', default="provider", choices=['provider', 'none'],
-                        help="Select if you want to use a IA provider or not")
     parser.add_argument('--data-source', choices=data_source_choices, nargs='+', required=True,
                         help="Select the data source(s) for vulnerabilities")  
     parser.add_argument('--gemini-key', help="API key for Gemini")
     parser.add_argument('--chatgpt-key', help="API key for ChatGPT")
     parser.add_argument('--llama-key', help="API key for Llama")
-    parser.add_argument('--provider', nargs='*', help="Providers of LLM")  # Add new argument for Default LLM
+    parser.add_argument('--provider', default=["none"], nargs='*', help="Select if you want to use a LLM (IA) provider or not ")  # Add new argument for Default LLM
     parser.add_argument('--vulners-key', help="API key for Vulners")
     parser.add_argument('--new-source-key', help="API key for New Source")  # Add new source key argument
     parser.add_argument('--export-format', choices=export_format_choices, required=True, help="Export format")
@@ -121,34 +119,7 @@ async def main():
     parser.add_argument('--search-file', help="Path to a file containing search parameters")
     args = parser.parse_args()
 
-    # Prioritize command-line arguments over environment variables
-    if args.vulners_key:
-        os.environ["VULNERS_API_KEY"] = args.vulners_key
-    if args.new_source_key:
-        os.environ["NEW_SOURCE_API_KEY"] = args.new_source_key  # Set new source key in environment
-    os.environ["CSV_OUTPUT_FILE"] = args.output_file
 
-    if args.source in ['gemini', 'combined']:
-        if args.gemini_key:
-            os.environ["GEMINI_API_KEY"] = args.gemini_key
-        elif not os.getenv("GEMINI_API_KEY"):
-            print("Gemini API key not found in environment.")
-            return
-
-    if args.source in ['chatgpt', 'combined']:
-        if args.chatgpt_key:
-            os.environ["CHATGPT_API_KEY"] = args.chatgpt_key
-        elif not os.getenv("CHATGPT_API_KEY"):
-            print("ChatGPT API key not found in environment.")
-            return
-
-    if args.source in ['llama', 'combined']:
-        if args.llama_key:
-            os.environ["LLAMA_API_KEY"] = args.llama_key
-        elif not os.getenv("LLAMA_API_KEY"):
-            print("Llama API key not found in environment.")
-            return
-           
     search_params = args.search_params or []
     if args.search_file:
         search_params.extend(read_search_params_from_file(args.search_file))
@@ -231,7 +202,7 @@ async def main():
                 result = await categorizer_obj.categorize_vulnerability_provider(description)
             except Exception as e:
                 print(f"Error categorizing vulnerability with {provider}: {e}")
-                result = [{"cwe_category": "UNKNOWN", "explanation": str(e), "vendor": "Unknown", "cause": "", "impact": ""}]
+                result = [{"cwe_category": "UNKNOWN", "explanation": str(e), "cause": "", "impact": ""}]
             
             if result and len(result) > 0:
                 categorization = result[0]  # Get first result dictionary
@@ -254,9 +225,13 @@ async def main():
             categorized_data[provider].append(vuln)
     
         print(f"Total categorized vulnerabilities for {provider}: {len(categorized_data[provider])}")
-        # Load exporters
+        
+        if provider == "none":
+            output = "dataset/" + args.output_file
+        else:
+            output = provider + '_dataset/' + args.output_file
 
-        output = provider + '_dataset/' + args.output_file
+        print(f"Exporting data to {output}")
         exporters = load_exporters(config, output)
         if args.export_format not in exporters:
            print(f"Unsupported export format: {args.export_format}")

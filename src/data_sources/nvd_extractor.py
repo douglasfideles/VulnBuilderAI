@@ -13,6 +13,7 @@ class NvdExtractor(DataSourceBase):
                 nvd_response = await self.get_nvd_data(param)
                 if nvd_response and 'vulnerabilities' in nvd_response:
                     for vuln in nvd_response['vulnerabilities']:
+                        vuln['vendor'] = param  # Add vendor based on search parameter
                         vulnerabilities.append(vuln)
                     print(f"Found {len(nvd_response['vulnerabilities'])} NVD vulnerabilities for {param}")
                 else:

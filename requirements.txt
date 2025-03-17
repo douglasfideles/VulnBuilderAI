@@ -1,6 +1,4 @@
 requests
-google-generativeai
-openai
 transformers
 psutil
 huggingface_hub
