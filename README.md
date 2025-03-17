@@ -76,9 +76,9 @@ Este repositório fornece scripts e instruções detalhadas para reproduzir os r
 | Argumento              | Descrição                                                                                             | Exemplo                          |
 |------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------|
 | `--provider`           | Nome do provedor de LLM (Large Language Model) a ser utilizado.                                      | `--provider 'openai'`           |
-| `--data-source`        | Caminho ou identificador para a fonte de dados que será utilizada pela ferramenta.                   | `--data-source 'dados.csv'`     |
-| `--search-params`      | Parâmetros de busca que devem ser utilizados durante a execução.                                     | `--search-params '{"query": "AI"}'` |
-| `--export-format`      | Formato do arquivo de exportação gerado pela ferramenta (e.g., `csv`, `json`, `txt`).                | `--export-format 'json'`        |
+| `--data-source`        | Caminho ou identificador para a fonte de dados que será utilizada pela ferramenta.                   | `--data-source 'nvd'`     |
+| `--search-params`      | Parâmetros de busca que devem ser utilizados durante a execução.                                     | `--search-params '{"Fonte de Dados"}'` |
+| `--export-format`      | Formato do arquivo de exportação gerado pela ferramenta (e.g., `csv`, `json`).                | `--export-format 'json'`        |
 | `--output-file`        | Caminho ou nome do arquivo onde os resultados serão salvos.                                         | `--output-file 'resultado.json'`|
 
 ---
