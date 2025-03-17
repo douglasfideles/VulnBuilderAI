@@ -23,7 +23,7 @@ Buscou-se deixar o mais claro possível, apresentando informações como versõe
 7.  **Teste mínimo:** Explicação dos argumentos de linha de comando e exemplos de uso local e por API.
 8.  **Experimentos:** Descreve um passo a passo para a execução e obtenção dos resultados do artigo. Permitindo que os revisores consigam alcançar as reivindicações apresentadas no artigo. 
 9. **Licença:** Informações sobre a licença do projeto.
-
+10. **Revisão Sistêmica da Ferramenta:** Uma revisão mais aprofundada da Ferramenta.
 ---
 
 ## Selos Considerados
