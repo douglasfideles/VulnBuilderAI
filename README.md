@@ -16,8 +16,8 @@ Este README.md está organizado nas seguintes seções:
 2.  **Estrutura do README.md:** Estrutura do presente README.md.
 3.  **Selos:** Estrutura com os Selos Considerados
 3.  **Informações básicas:** Esta seção deve apresentar informações básicas de todos os componentes necessários para a execução e replicação dos experimentos. Descrevendo todo o ambiente de execução, com requisitos de hardware e software.
-4.  **Depêndencias:** Informações relacionadas a benchmarks utilizados e dependências para a execução devem ser descritas nesta seção. 
-Busque deixar o mais claro possível, apresentando informações como versões de dependências e processos para acessar recursos de terceiros caso necessário.
+4.  **Depêndencias:** Informações relacionadas a benchmarks utilizados e dependências para a execução são descritas nesta seção. 
+Buscou-se deixar o mais claro possível, apresentando informações como versões de dependências e processos para acessar recursos de terceiros caso necessário.
 5.  **Preocupações com segurança:** Lista das preocupações com a segurança.
 6.  **Instalação:** O processo de baixar e instalar a aplicação deve ser descrito nesta seção.
 7.  **Teste mínimo:** Explicação dos argumentos de linha de comando e exemplos de uso local e por API.
