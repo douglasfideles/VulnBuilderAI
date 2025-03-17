@@ -1,4 +1,4 @@
-# VulnBuilderAI: Ferramenta Multiplataforma para Construção de Datasets de Vulnerabilidades com Categorização por IA
+# VulnSyncAI: Uma Abordagem Automatizada para Construção e Atualização de Datasets de Vulnerabilidades
 
 [![Licença](https://img.shields.io/badge/License-GNU%20GPL-blue)](https://opensource.org/licenses/GNU)
 
