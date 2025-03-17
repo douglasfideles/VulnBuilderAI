@@ -75,10 +75,6 @@ Esta seção apresenta todos os componentes essenciais que foram necessários pa
 - **Ferramentas Adicionais:**
   - Git para clonagem do repositório.
   - Ambiente virtual (opcional, mas recomendado) para isolamento do projeto.
----
-
-Esta seção foi estruturada para fornecer clareza total sobre todas as dependências envolvidas, garantindo que os experimentos sejam reprodutíveis e acessíveis. Se precisar de mais informações ou ajustes, posso complementar! 😊
-
 
 ---
 ## Dependências de Software
