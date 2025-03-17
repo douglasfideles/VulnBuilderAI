@@ -109,10 +109,13 @@ Caso a execução do artefato ofereça qualquer tipo de risco, esta seção deta
 **Medidas de Segurança**
 
 1. **Gerenciamento de Chaves de API:**
-   - Assegura que as chaves de API sejam armazenadas em variáveis de ambiente e nunca diretamente no código.
+   - Assegura que as chaves de API sejam armazenadas em variáveis de ambiente e nunca diretamente no código, na config.yaml cuidado com o envio da ´api_key´. Essa configuração é estrito para testes.
    - Exemplo de configuração:
-     ```bash
-     export API_KEY="SUA_CHAVE_SEGURA_AQUI"
+     ```model: "llama3.1-70b"
+        type: "api"
+        provider: "llama2"
+        site: "https://api.llama-api.com"
+        api_key: "api_key"
      ```
 
 2. **Execução em Ambientes Isolados:**
