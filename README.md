@@ -161,10 +161,6 @@ python src/main.py --provider <ai_provider> --data-source <data_source> --export
     python src/main.py --provider 'none' --data-source 'nvd' --search-params "OpenDDS" --export-format csv --output-file vulnerabilidades_nvd.csv
     ```
 
-    - `--source none`: _Não_ usa IA para categorização. Os campos de categoria (CWE, etc.) ficarão como "UNKNOWN".
-    - `--data-source nvd`: Usa _apenas_ o NVD.
-    - Não precisa de chaves de API de LLMs.
-
 3.  **Usando Gemini, Vulners e um arquivo com termos de busca:**
 
     Crie um arquivo `search_terms.txt` com o seguinte conteúdo (um termo por linha):
@@ -417,13 +413,13 @@ CMD ["python", "src/main.py"]
 2.  **Executar o container usando IA para categorização:**
 
     ```bash
-    docker run vbuilder python src/main.py --source combined --data-source both --vulners-key <SUA_CHAVE_VULNERS> --gemini-key <SUA_CHAVE_GEMINI> --chatgpt-key <SUA_CHAVE_CHATGPT>  --llama-key <SUA_CHAVE_LLAMA>  --export-format csv --output-file vulnerabilidades.csv --search-params "OpenDDS" "RTI Connext DDS"
+    docker run vbuilder python src/main.py --provider 'llama3' --data-source 'nvd' --export-format csv --output-file vulnerabilidades.csv --search-params "OpenDDS" "RTI Connext DDS"
     ```
 
 3.  **Executar o container sem usar IA para categorização:**
 
     ```bash
-    docker run --source none --data-source nvd --export-format csv --output-file vulnerabilidades.csv --search-params "OpenDDS"
+    docker run --provider 'none' --data-source nvd --export-format csv --output-file vulnerabilidades.csv --search-params "OpenDDS"
     ```
 
 ## Estrutura do Código
