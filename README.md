@@ -29,7 +29,7 @@ Buscou-se deixar o mais claro possível, apresentando informações como versõe
 ## Selos Considerados
 Os selos considerados no processo de avaliação são: **Disponíveis**, **Funcionais**, **Sustentáveis** e **Experimentos Reprodutíveis**.
 
-# Informações Básicas
+## Informações Básicas
 
 Esta seção apresenta todos os componentes essenciais que foram necessários para a execução e replicação dos experimentos, incluindo detalhes sobre o ambiente de execução e os requisitos de hardware e software.
 
@@ -187,7 +187,7 @@ Você pode configurar o VulnBuilderAI usando _variáveis de ambiente_ ou _argume
 1.  **Arquivo de configuração (opcional):**
     _Não implementado no código fornecido._ Se você quisesse adicionar um arquivo de configuração (e.g., `config.ini` ou `config.yaml`), precisaria modificar o código (`main.py`) para ler as configurações desse arquivo.
 
-### Teste mínimo
+## Teste mínimo
 
 1.  **Usando todas as IAs, ambas as fontes e múltiplos termos de busca:**
 
