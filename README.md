@@ -26,6 +26,71 @@ Este README.md está organizado nas seguintes seções:
 
 ---
 
+## Selos
+- **Artefatos Disponíveis (SeloD)**
+  - O repositório disponível no GitHub contém o arquivo README.md, o qual fornece todas as informações necessárias para entender e utilizar o projeto. Nele, você encontrará detalhes sobre o propósito do projeto, requisitos de sistema, instruções de instalação e execução, além de outras informações relevantes.
+- **Artefatos Funcionais (SeloF)**
+  ## Dependências
+  - `requests`
+  - `google-generativeai`
+  - `openai`
+  - `transformers`
+  - `psutil`
+  - `huggingface_hub`
+  - `torch`
+
+  ## Versões das Dependências, Linguagens e Ambiente
+  - **Linguagem:** Python 3.10
+  - **Bibliotecas e Ferramentas:**
+    - `requests`: versão 2.31.0
+    - `google-generativeai`: versão 0.1.3
+    - `openai`: versão 0.27.2
+    - `transformers`: versão 4.27.4
+    - `psutil`: versão 5.9.4
+    - `huggingface_hub`: versão 0.13.3
+    - `torch`: versão 2.0.0
+  - **Ambiente:** Sistema operacional Ubuntu 20.04 LTS, arquitetura x86_64.
+
+  ## Descrição do Ambiente de Execução
+  Este projeto foi desenvolvido para rodar em ambiente Linux e Windows. É necessário suporte para Python 3.10 e acesso à internet para baixar as dependências. Pode ser configurado localmente ou em contêineres como Docker.
+
+-**Artefatos Sustentáveis (SeloS)**
+-**Experimentos Reprodutíveis (SeloR)**
+# Experimentos Reprodutíveis (SeloR)
+
+## Instruções para Reproduzir as Principais Reivindicações
+
+Este repositório fornece scripts e instruções detalhadas para reproduzir os resultados apresentados no artigo, incluindo gráficos e tabelas.
+
+### Passos para Reproduzir os Resultados
+
+1. **Configuração do Ambiente**  
+   Certifique-se de preparar o ambiente conforme especificado na seção de instalação deste README.md. Todas as dependências necessárias podem ser instaladas utilizando o arquivo `requirements.txt`.
+
+2. **Execução dos Experimentos**  
+   Utilize o script principal para realizar os experimentos e gerar os resultados:
+   ```bash
+   python src/main.py --provider '[PROVEDOR_LLM]' --data-source '[FONTE_DADOS]' --search-params '[PARAMETRO_BUSCA]' --export-format [FORMATO_SAIDA] --output-file [ARQUIVO_SAIDA]
+## Detalhamento dos Argumentos de Linha de Comando
+
+| Argumento              | Descrição                                                                                             | Exemplo                          |
+|------------------------|-----------------------------------------------------------------------------------------------------|----------------------------------|
+| `--provider`           | Nome do provedor de LLM (Large Language Model) a ser utilizado.                                      | `--provider 'openai'`           |
+| `--data-source`        | Caminho ou identificador para a fonte de dados que será utilizada pela ferramenta.                   | `--data-source 'dados.csv'`     |
+| `--search-params`      | Parâmetros de busca que devem ser utilizados durante a execução.                                     | `--search-params '{"query": "AI"}'` |
+| `--export-format`      | Formato do arquivo de exportação gerado pela ferramenta (e.g., `csv`, `json`, `txt`).                | `--export-format 'json'`        |
+| `--output-file`        | Caminho ou nome do arquivo onde os resultados serão salvos.                                         | `--output-file 'resultado.json'`|
+
+---
+
+Se precisar de mais detalhes ou ajustes, posso incluir mais informações na tabela! 😊
+
+## Instruções de Instalação e Execução
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seuprojeto/seurepositorio.git
+   cd seurepositorio
+
 ## Funcionalidades
 
 - **Coleta de Dados:** Busca dados de vulnerabilidades em múltiplas fontes:
