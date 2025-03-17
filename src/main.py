@@ -96,7 +96,7 @@ async def main():
     except Exception as e:
         print("You are not logged in to Hugging Face. Please log in.")
         # Substitua 'SEU_TOKEN_AQUI' pelo seu token de acesso do Hugging Face
-        login(token=config['models_to_evaluate'].get('hugginface_api_key'))
+        login(token=config['models_to_evaluate'][0].get('hugginface_api_key'))
 
 
     data_source_choices = config['data_sources'] + ['both']
