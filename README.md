@@ -56,7 +56,7 @@ Este README.md está organizado nas seguintes seções:
 
 -**Artefatos Sustentáveis (SeloS)**
 -**Experimentos Reprodutíveis (SeloR)**
-# Experimentos Reprodutíveis (SeloR)
+-**Experimentos Reprodutíveis (SeloR)**
 
 ## Instruções para Reproduzir as Principais Reivindicações
 
