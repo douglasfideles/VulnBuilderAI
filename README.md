@@ -24,7 +24,7 @@ Buscou-se deixar o mais claro possível, apresentando informações como versõe
 8.  **Experimentos:** Descreve um passo a passo para a execução e obtenção dos resultados do artigo. Permitindo que os revisores consigam alcançar as reivindicações apresentadas no artigo. 
 9. **Licença:** Informações sobre a licença do projeto.
 10. **Revisão Sistêmica da Ferramenta:** Uma revisão mais aprofundada da Ferramenta.
----
+--- 
 
 ## Selos Considerados
 ## Artefatos Disponíveis (SeloD)
@@ -39,7 +39,7 @@ Buscou-se deixar o mais claro possível, apresentando informações como versõe
   - `huggingface_hub`
   - `torch`
 
-  ## Versões das Dependências, Linguagens e Ambiente
+   **Versões das Dependências, Linguagens e Ambiente**
   - **Linguagem:** Python 3.10
   - **Bibliotecas e Ferramentas:**
     - `requests`: versão 2.31.0
@@ -51,11 +51,12 @@ Buscou-se deixar o mais claro possível, apresentando informações como versõe
     - `torch`: versão 2.0.0
   - **Ambiente:** Sistema operacional windows 10 e Ubuntu 20.04 LTS, arquiteturas x86_64.
 
-  ## Descrição do Ambiente de Execução
+   **Descrição do Ambiente de Execução**
   Este projeto foi desenvolvido para rodar em ambiente Linux e Windows. É necessário suporte para Python 3.10 e acesso à internet para baixar as dependências. Pode ser configurado localmente ou em contêineres como Docker.
 
  ## Artefatos Sustentáveis (SeloS)
- - ## Experimentos Reprodutíveis (SeloR)
+ to do aqui
+ ## Experimentos Reprodutíveis (SeloR)
 
  - **Instruções para Reproduzir as Principais Reivindicações**
 
@@ -89,16 +90,17 @@ Esta seção apresenta todos os componentes essenciais que foram necessários pa
 
 - **Ambiente de Execução**
   - Os experimentos para executar os estudos de casos usando a API do Gemini e DeepSeek foram realizados em um computador com processador Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz   2.81 GHz (4 núcleos) e 16GB de memória RAM, rodando o sistema opera-cional Windows 10 Home. 
+  - **Sistemas Operacionais Suportados:**
+    - Windows 10 ou superior
 
   - Para rodar o estudo de caso rodando a configuração local do Llama3 (DeepHermes-3-Llama-3-8B-Preview3) foram usados uma máquina virtual (VMs) na Google Cloud com a seguinte configuração: e2-custom-12-40960 (12 vCPUs, 40 GB de memória), Ubuntu-2004-focal-v20250213.
+  - **Sistemas Operacionais Suportados:**
+    - Ubuntu 20.04 LTS (ou equivalente com suporte a Python 3.10)
 
-- **Sistemas Operacionais Suportados:**
-  - Ubuntu 20.04 LTS (ou equivalente com suporte a Python 3.10)
-  - Windows 10 ou superior
 - **Arquitetura:** x86_64.
 - **Linguagem de Programação:** Python 3.10.
 
-## Requisitos de Hardware API
+**Requisitos de Hardware API**
 
 - **CPU:** Processador com no mínimo 4 núcleos (recomendado Intel i5 ou equivalente).
 - **Memória RAM:** Mínimo de 8 GB (16 GB recomendados para grandes volumes de dados).
@@ -109,7 +111,7 @@ Esta seção apresenta todos os componentes essenciais que foram necessários pa
   - **Memória RAM:** 16 GB.
   - **Sistema Operacional:** Windows 10 Home.
 
-  ## Requisitos de Hardware Local Google Cloud
+**Requisitos de Hardware Local Google Cloud**
 
 - **CPU:** Processador com no mínimo 12 vCPUs núcleos.
 - **Memória RAM:** Mínimo de 8 GB (16 GB recomendados para grandes volumes de dados.
@@ -120,7 +122,7 @@ Esta seção apresenta todos os componentes essenciais que foram necessários pa
   - **Memória RAM:** 40 GB.
   - **Sistema Operacional:** Ubuntu 20.04 LTS, arquiteturas x86_64.
 
-## Requisitos de Software
+**Requisitos de Software**
 
 - **Python 3.10:** Certifique-se de que está instalado no sistema.
 - **Gerenciador de Pacotes:** `pip` ou equivalente para instalação das dependências.
@@ -149,7 +151,7 @@ Abaixo estão listadas as principais bibliotecas e ferramentas necessárias, bem
 
 Caso a execução do artefato ofereça qualquer tipo de risco, esta seção detalha os potenciais perigos e descreve os processos necessários para garantir a segurança dos avaliadores.
 
-## Riscos Potenciais
+**Riscos Potenciais**
 
 1. **Uso de Recursos Externos:**
    - Dependências externas ou APIs podem expor chaves de autenticação ou dados sensíveis, caso não sejam configuradas adequadamente.
@@ -162,7 +164,7 @@ Caso a execução do artefato ofereça qualquer tipo de risco, esta seção deta
 3. **Manipulação de Dados Brutos:**
    - Dados não sanitizados podem conter informações prejudiciais ou maliciosas, representando um risco para o sistema onde são processados.
 
-## Medidas de Segurança
+**Medidas de Segurança**
 
 1. **Gerenciamento de Chaves de API:**
    - Assegura que as chaves de API sejam armazenadas em variáveis de ambiente e nunca diretamente no código.
@@ -182,7 +184,7 @@ Caso a execução do artefato ofereça qualquer tipo de risco, esta seção deta
 3. **Documentação de Restrições:**
    - Informa aos revisores quaisquer restrições ou pré-requisitos para garantir a execução segura do artefato.
 
-## Responsabilidade
+**Responsabilidade**
 
 - Todos os scripts fornecidos foram projetados para minimizar riscos à segurança. No entanto, é responsabilidade do usuário garantir que o ambiente de execução seja seguro e que as práticas recomendadas descritas acima sejam seguidas.
 
@@ -192,7 +194,7 @@ Caso a execução do artefato ofereça qualquer tipo de risco, esta seção deta
    git clone https://github.com/seuprojeto/seurepositorio.git
    cd seurepositorio
 
-## Pré-requisitos
+**Pré-requisitos**
 
 - Python 3.8 ou superior.
 - Chaves de API para os seguintes serviços (opcional, dependendo dos módulos e LLMs que você for usar):
@@ -201,7 +203,7 @@ Caso a execução do artefato ofereça qualquer tipo de risco, esta seção deta
   - **OpenAI ChatGPT:** Obtenha uma chave em [https://platform.openai.com/](https://platform.openai.com/)
   - **Llama (Meta):** Obtenha uma chave em [https://llama-api.com/](https://llama-api.com/)
 
-## Instalação
+**Instalação**
 
 1.  **Clone o repositório:**
 
@@ -232,7 +234,7 @@ Caso a execução do artefato ofereça qualquer tipo de risco, esta seção deta
       pip install requests
     ```
 
-## Configuração
+**Configuração**
 
 Você pode configurar o VulnBuilderAI usando _variáveis de ambiente_ ou _argumentos de linha de comando_. A ordem de prioridade é: argumentos de linha de comando > variáveis de ambiente.
 
