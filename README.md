@@ -1,10 +1,10 @@
-# VulnBuilderAI: Ferramenta Multiplataforma para Construção de Datasets de Vulnerabilidades com Categorização por IA
+# VulnSyncAI: PLN e LLMs para Construção e Atualização Contínua de Datasets de Vulnerabilidades
 
 [![Licença](https://img.shields.io/badge/License-GNU%20GPL-blue)](https://opensource.org/licenses/GNU)
 
 **Resumo do Artigo:**
 
-_Este projeto apresenta o VulnBuilderAI, uma ferramenta para construir datasets de vulnerabilidades de software. A ferramenta coleta dados de múltiplas fontes, normaliza, extrai informações relevantes usando PLN (incluindo LLMs) e categoriza as vulnerabilidades. O objetivo é gerar datasets de alta qualidade para pesquisa e prática em segurança de software._
+_A construção e manutenção de datasets atualizados de vulnerabilidades enfrentam desafios como falta de padronização e necessidade de automação. Neste trabalho, apresentamos a VulnSyncAI, uma ferramenta modular que utiliza PLN e LLMs para correlacionar informações de múltiplas fontes, garantindo datasets atualizados e relevantes. A VulnSyncAI melhora a eficácia de modelos de IA na detecção de ameaças, automatizando processos e aumentando a eficiência na criação de datasets representativos._
 
 ---
 
